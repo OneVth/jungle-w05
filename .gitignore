@@ -1,0 +1,17 @@
+# Object files
+*.o
+*.obj
+
+# Executable files
+*.exe
+*.out
+
+# Debug files
+*.dSYM/
+
+# IDE files
+.vscode/settings.json
+.vscode/launch.json
+
+# Build directory
+build/
