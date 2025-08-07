@@ -35,11 +35,17 @@ ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+/// test function ///
+void test_wrapping(void);
+void testCase1(void);
+void testCase2(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
+	// test_wrapping();
+
 	LinkedList ll1, ll2;
 	int c, i, j;
 	c = 1;
@@ -101,9 +107,112 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+void test_wrapping(void)
+{
+	testCase1();
+	testCase2();
+}
+
+void testCase1(void)
+{
+	printf("**************** test case 1 ****************\n");
+	LinkedList ll1, ll2;
+
+	//Initialize the linked list 1 as an empty linked list
+	ll1.head = NULL;
+	ll1.size = 0;
+
+	//Initialize the linked list 2 as an empty linked list
+	ll2.head = NULL;
+	ll2.size = 0;
+
+	insertNode(&ll1, 0, 1);
+	insertNode(&ll1, 1, 2);
+	insertNode(&ll1, 2, 3);
+
+	insertNode(&ll2, 0, 4);
+	insertNode(&ll2, 1, 5);
+	insertNode(&ll2, 2, 6);
+	insertNode(&ll2, 3, 7);
+
+	printf("\nbefore merge:\n");
+	printf("LinkedList1: ");
+	printList(&ll1);
+	printf("LinkedList1: ");
+	printList(&ll2);
+
+	alternateMergeLinkedList(&ll1, &ll2);
+
+	printf("\nafter merge: ");
+	printf("LinkedList1: ");
+	printList(&ll1);
+	printf("LinkedList1: ");
+	printList(&ll2);
+
+	removeAllItems(&ll1);
+	removeAllItems(&ll2);
+	putchar('\n');
+}
+
+void testCase2(void)
+{
+	printf("**************** test case 2 ****************\n");
+	LinkedList ll1, ll2;
+
+	//Initialize the linked list 1 as an empty linked list
+	ll1.head = NULL;
+	ll1.size = 0;
+
+	//Initialize the linked list 2 as an empty linked list
+	ll2.head = NULL;
+	ll2.size = 0;
+
+	insertNode(&ll1, 0, 1);
+	insertNode(&ll1, 1, 5);
+	insertNode(&ll1, 2, 7);
+	insertNode(&ll1, 3, 3);
+	insertNode(&ll1, 4, 9);
+	insertNode(&ll1, 5, 11);
+
+	insertNode(&ll2, 0, 6);
+	insertNode(&ll2, 1, 10);
+	insertNode(&ll2, 2, 2);
+	insertNode(&ll2, 3, 4);
+
+	printf("\nbefore merge:\n");
+	printf("LinkedList1: ");
+	printList(&ll1);
+	printf("LinkedList1: ");
+	printList(&ll2);
+
+	alternateMergeLinkedList(&ll1, &ll2);
+
+	printf("\nafter merge: ");
+	printf("LinkedList1: ");
+	printList(&ll1);
+	printf("LinkedList1: ");
+	printList(&ll2);
+
+	removeAllItems(&ll1);
+	removeAllItems(&ll2);
+	putchar('\n');
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
-    /* add your code here */
+	int loop_cnt = 0;
+    if (ll1->size >= ll2->size)
+		loop_cnt = ll2->size;
+	else
+		loop_cnt = ll1->size;
+
+	for (int i = 0; i < 2 * loop_cnt; i += 2)
+		{
+			insertNode(ll1, i + 1, ll2->head->item);
+			removeNode(ll2, 0);
+		}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
