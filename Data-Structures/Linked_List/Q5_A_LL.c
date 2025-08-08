@@ -35,11 +35,7 @@ int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 /// test functions ///
-void test_wrapping(void);
-void testCase1(void);
-void testCase2(void);
-void testCase3(void);
-void testCase4(void);
+void smokeTest(void);
 
 ///////////////////////////// main() /////////////////////////////////////////////
 
@@ -47,7 +43,7 @@ int main()
 {
 #ifdef DEBUG
 	printf("[DEBUG MODE] Running test functions\n");
-	test_wrapping();
+	smokeTest();
 	return 0;
 #endif
 	int c, i;
@@ -113,14 +109,6 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void test_wrapping(void)
-{
-	testCase1();
-	testCase2();
-	testCase3();
-	testCase4();
-}
-
 static void test_util(LinkedList *ll, LinkedList *ll_front, LinkedList *ll_back)
 {
 	printf("\nbefore split:\n");
@@ -142,125 +130,54 @@ static void test_util(LinkedList *ll, LinkedList *ll_front, LinkedList *ll_back)
 	printList(ll_back);
 }
 
-void testCase1(void)
+void smokeTest(void)
 {
-	printf("**************** test case 1 ****************\n");
-	LinkedList ll, ll_front, ll_back;
+	printf("============== Smoke Test Start ==============\n\n");
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+#define TEST_COUNT 7
+#define MAX_ELEMENTS 10
 
-	// Initialize the linked list 2 as an empty linked list
-	ll_front.head = NULL;
-	ll_front.size = 0;
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{2, 3, 4, 7, 5, 15, 18},
+		{3, 5, 7, 9},
+		{2, 3, 4, 5, 6},
+		{2, 3, 5, 6, 7},
+		{1, 2, 3},
+		{1, 2, 3, 4, 5, 6},
+		{}
+	};
 
-	// Initialize the linked list 3 as an empty linked list
-	ll_back.head = NULL;
-	ll_back.size = 0;
+	int test_sizes[TEST_COUNT] = {7, 4, 5, 5, 3, 6, 0};
 
-	insertNode(&ll, 0, 2);
-	insertNode(&ll, 1, 3);
-	insertNode(&ll, 2, 4);
-	insertNode(&ll, 3, 7);
-	insertNode(&ll, 4, 5);
-	insertNode(&ll, 5, 15);
-	insertNode(&ll, 6, 18);
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll, ll_front, ll_back;
 
-	test_util(&ll, &ll_front, &ll_back);
+		// Initialize the linked list 1 as an empty linked list
+		ll.head = NULL;
+		ll.size = 0;
 
-	removeAllItems(&ll);
-	removeAllItems(&ll_front);
-	removeAllItems(&ll_back);
-	putchar('\n');
-}
+		// Initialize the linked list 2 as an empty linked list
+		ll_front.head = NULL;
+		ll_front.size = 0;
 
-void testCase2(void)
-{
-	printf("**************** test case 2 ****************\n");
-	LinkedList ll, ll_front, ll_back;
+		// Initialize the linked list 3 as an empty linked list
+		ll_back.head = NULL;
+		ll_back.size = 0;
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+		for (int j = 0; j < test_sizes[i]; j++)
+			insertNode(&ll, j, test_cases[i][j]);
 
-	// Initialize the linked list 2 as an empty linked list
-	ll_front.head = NULL;
-	ll_front.size = 0;
+		test_util(&ll, &ll_front, &ll_back);
 
-	// Initialize the linked list 3 as an empty linked list
-	ll_back.head = NULL;
-	ll_back.size = 0;
+		removeAllItems(&ll);
+		removeAllItems(&ll_front);
+		removeAllItems(&ll_back);
+		putchar('\n');
+	}
 
-	insertNode(&ll, 0, 3);
-	insertNode(&ll, 1, 5);
-	insertNode(&ll, 2, 7);
-	insertNode(&ll, 3, 9);
-
-	test_util(&ll, &ll_front, &ll_back);
-
-	removeAllItems(&ll);
-	removeAllItems(&ll_front);
-	removeAllItems(&ll_back);
-	putchar('\n');
-}
-
-void testCase3(void)
-{
-	printf("**************** test case 3 ****************\n");
-	LinkedList ll, ll_front, ll_back;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-
-	// Initialize the linked list 2 as an empty linked list
-	ll_front.head = NULL;
-	ll_front.size = 0;
-
-	// Initialize the linked list 3 as an empty linked list
-	ll_back.head = NULL;
-	ll_back.size = 0;
-
-	insertNode(&ll, 0, 2);
-
-	test_util(&ll, &ll_front, &ll_back);
-
-	removeAllItems(&ll);
-	removeAllItems(&ll_front);
-	removeAllItems(&ll_back);
-	putchar('\n');
-}
-
-void testCase4(void)
-{
-	printf("**************** test case 4 ****************\n");
-	LinkedList ll, ll_front, ll_back;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-
-	// Initialize the linked list 2 as an empty linked list
-	ll_front.head = NULL;
-	ll_front.size = 0;
-
-	// Initialize the linked list 3 as an empty linked list
-	ll_back.head = NULL;
-	ll_back.size = 0;
-
-	insertNode(&ll, 0, 2);
-	insertNode(&ll, 1, 3);
-	insertNode(&ll, 2, 5);
-	insertNode(&ll, 3, 6);
-	insertNode(&ll, 4, 7);
-
-	test_util(&ll, &ll_front, &ll_back);
-
-	removeAllItems(&ll);
-	removeAllItems(&ll_front);
-	removeAllItems(&ll_back);
-	putchar('\n');
+	printf("============= Smoke Test Complete =============\n");
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +198,7 @@ void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, Linke
 		mid = ll->size / 2;
 	else
 		mid = ll->size / 2 + 1;
-	
+
 	ListNode *ptr = ll->head;
 	for (int i = 0; i < mid; i++)
 	{

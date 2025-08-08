@@ -35,9 +35,7 @@ int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 /// test function ///
-void test_wrapping(void);
-void testCase1(void);
-void testCase2(void);
+void smokeTest(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -45,7 +43,7 @@ int main()
 {
 #ifdef DEBUG
 	printf("[DEBUG MODE] Running test functions\n");
-	test_wrapping();
+	smokeTest();
 	return 0;
 #endif
 
@@ -101,64 +99,49 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void test_wrapping(void)
+void smokeTest(void)
 {
-	testCase1();
-	testCase2();
-}
+	printf("============== Smoke Test Start ==============\n\n");
 
-void testCase1(void)
-{
-	printf("**************** test case 1 ****************\n");
-	LinkedList ll;
+#define TEST_COUNT 5
+#define MAX_ELEMENTS 10
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{2, 3, 5, 7, 9},
+		{5, 7, 9, 11, 15},
+		{1, 10},
+		{2, 3, 5, 7},
+		{1, 2, 3, 5},
+	};
 
-	insertNode(&ll, 0, 2);
-	insertNode(&ll, 1, 3);
-	insertNode(&ll, 2, 5);
-	insertNode(&ll, 3, 7);
-	insertNode(&ll, 4, 9);
+	int test_sizes[TEST_COUNT] = {5, 5, 2, 4, 4};
+	int insert_value[TEST_COUNT] = {8, 7, 1, 7, 1};
 
-	printf("\nbefore insertion: ");
-	printList(&ll);
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll;
 
-	printf("\ninserted index: %d\n", insertSortedLL(&ll, 8));
+		// Initialize the linked list 1 as an empty linked list
+		ll.head = NULL;
+		ll.size = 0;
 
-	printf("\nafter insertion: ");
-	printList(&ll);
+		for (int j = 0; j < test_sizes[i]; j++)
+			insertNode(&ll, j, test_cases[i][j]);
 
-	removeAllItems(&ll);
-	putchar('\n');
-}
+		printf("\nbefore insertion: ");
+		printList(&ll);
 
-void testCase2(void)
-{
-	printf("**************** test case 2 ****************\n");
-	LinkedList ll;
+		printf("\ninserted index: %d\n", insertSortedLL(&ll, insert_value[i]));
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-	
-	insertNode(&ll, 0, 5);
-	insertNode(&ll, 1, 7);
-	insertNode(&ll, 2, 9);
-	insertNode(&ll, 3, 11);
-	insertNode(&ll, 4, 15);
+		printf("\nafter insertion: ");
+		printList(&ll);
 
-	printf("\nbefore insertion: ");
-	printList(&ll);
+		removeAllItems(&ll);
+		putchar('\n');
+	}
 
-	printf("\ninserted index: %d\n", insertSortedLL(&ll, 7));
-
-	printf("\nafter insertion: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
+	printf("============= Smoke Test Complete =============\n");
 }
 
 //////////////////////////////////////////////////////////////////////////////////

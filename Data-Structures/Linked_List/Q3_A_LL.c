@@ -35,11 +35,7 @@ int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 /// test function ///
-void test_wrapping(void);
-void testCase1(void);
-void testCase2(void);
-void testCase3(void);
-void testCase4(void);
+void smokeTest(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -47,14 +43,14 @@ int main()
 {
 #ifdef DEBUG
 	printf("[DEBUG MODE] Running test functions\n");
-	test_wrapping();
+	smokeTest();
 	return 0;
 #endif
 
 	LinkedList ll;
 	int c, i, j;
 	c = 1;
-	//Initialize the linked list 1 as an empty linked list
+	// Initialize the linked list 1 as an empty linked list
 	ll.head = NULL;
 	ll.size = 0;
 
@@ -95,121 +91,51 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void test_wrapping(void)
+void smokeTest(void)
 {
-	testCase1();
-	testCase2();
-	testCase3();
-	testCase4();
-}
+	printf("============== Smoke Test Start ==============\n\n");
 
-void testCase1(void)
-{
-	printf("**************** test case 1 ****************\n");
-	LinkedList ll;
+#define TEST_COUNT 8
+#define MAX_ELEMENTS 10
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{2, 3, 4, 7, 5, 15, 18},
+		{3, 5, 7, 9},
+		{2, 4, 6, 8},
+		{3, 4, 7, 5, 15, 18},
+		{1, 2, 4},
+		{2, 4, 3},
+		{1, 3, 5},
+		{2, 4, 6},
+	};
 
-	insertNode(&ll, 0, 2);
-	insertNode(&ll, 1, 3);
-	insertNode(&ll, 2, 4);
-	insertNode(&ll, 3, 7);
-	insertNode(&ll, 4, 5);
-	insertNode(&ll, 5, 15);
-	insertNode(&ll, 6, 18);
+	int test_sizes[TEST_COUNT] = {7, 4, 4, 6, 3, 3, 3, 3};
 
-	printf("\nbefore move: ");
-	printList(&ll);
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll;
 
-	moveOddItemsToBack(&ll);
+		// Initialize the linked list 1 as an empty linked list
+		ll.head = NULL;
+		ll.size = 0;
 
-	printf("\nafter move: ");
-	printList(&ll);
+		for (int j = 0; j < test_sizes[i]; j++)
+			insertNode(&ll, j, test_cases[i][j]);
 
-	removeAllItems(&ll);
-	putchar('\n');
-}
+		printf("\nbefore move: ");
+		printList(&ll);
 
-void testCase2(void)
-{
-	printf("**************** test case 2 ****************\n");
-	LinkedList ll;
+		moveOddItemsToBack(&ll);
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+		printf("\nafter move: ");
+		printList(&ll);
 
-	insertNode(&ll, 0, 3);
-	insertNode(&ll, 1, 5);
-	insertNode(&ll, 2, 7);
-	insertNode(&ll, 3, 9);
+		removeAllItems(&ll);
+		putchar('\n');
+	}
 
-	printf("\nbefore move: ");
-	printList(&ll);
-
-	moveOddItemsToBack(&ll);
-
-	printf("\nafter move: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
-}
-
-void testCase3(void)
-{
-	printf("**************** test case 3 ****************\n");
-	LinkedList ll;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-
-	insertNode(&ll, 0, 2);
-	insertNode(&ll, 1, 4);
-	insertNode(&ll, 2, 6);
-	insertNode(&ll, 3, 8);
-
-	printf("\nbefore move: ");
-	printList(&ll);
-
-	moveOddItemsToBack(&ll);
-
-	printf("\nafter move: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
-}
-
-void testCase4(void)
-{
-	printf("**************** test case 4 ****************\n");
-	LinkedList ll;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-
-	insertNode(&ll, 0, 3);
-	insertNode(&ll, 1, 4);
-	insertNode(&ll, 2, 7);
-	insertNode(&ll, 3, 5);
-	insertNode(&ll, 4, 15);
-	insertNode(&ll, 5, 18);
-
-	printf("\nbefore move: ");
-	printList(&ll);
-
-	moveOddItemsToBack(&ll);
-
-	printf("\nafter move: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
+	printf("============= Smoke Test Complete =============\n");
 }
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +176,6 @@ void moveOddItemsToBack(LinkedList *ll)
 			cur = cur->next;
 		}
 	}
-	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

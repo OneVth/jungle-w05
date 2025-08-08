@@ -15,14 +15,13 @@ typedef struct _listnode
 {
 	int item;
 	struct _listnode *next;
-} ListNode;			// You should not change the definition of ListNode
+} ListNode; // You should not change the definition of ListNode
 
 typedef struct _linkedlist
 {
 	int size;
 	ListNode *head;
-} LinkedList;			// You should not change the definition of LinkedList
-
+} LinkedList; // You should not change the definition of LinkedList
 
 //////////////////////// function prototypes /////////////////////////////////////
 
@@ -31,16 +30,12 @@ int moveMaxToFront(ListNode **ptrHead);
 
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *ll);
-ListNode * findNode(LinkedList *ll, int index);
+ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 /// test functions ///
-void test_wrapping(void);
-void testCase1(void);
-void testCase2(void);
-void testCase3(void);
-void testCase4(void);
+void smokeTest(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -48,7 +43,7 @@ int main()
 {
 #ifdef DEBUG
 	printf("[DEBUG MODE] Running test functions\n");
-	test_wrapping();
+	smokeTest();
 	return 0;
 #endif
 
@@ -56,10 +51,9 @@ int main()
 	c = 1;
 
 	LinkedList ll;
-	//Initialize the linked list 1 as an empty linked list
+	// Initialize the linked list 1 as an empty linked list
 	ll.head = NULL;
 	ll.size = 0;
-
 
 	printf("1: Insert an integer to the linked list:\n");
 	printf("2: Move the largest stored value to the front of the list:\n");
@@ -75,12 +69,12 @@ int main()
 		case 1:
 			printf("Input an integer that you want to add to the linked list: ");
 			scanf("%d", &i);
-			j=insertNode(&ll, ll.size, i);
+			j = insertNode(&ll, ll.size, i);
 			printf("The resulting linked list is: ");
 			printList(&ll);
 			break;
 		case 2:
-			moveMaxToFront(&(ll.head));  // You need to code this function
+			moveMaxToFront(&(ll.head)); // You need to code this function
 			printf("The resulting linked list after moving largest stored value to the front of the list is: ");
 			printList(&ll);
 			removeAllItems(&ll);
@@ -98,90 +92,49 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-void test_wrapping(void)
+void smokeTest(void)
 {
-	testCase1();
-	testCase2();
-	testCase3();
-}
+	printf("============== Smoke Test Start ==============\n\n");
 
-void testCase1(void)
-{
-	printf("**************** test case 1 ****************\n");
-	LinkedList ll;
+#define TEST_COUNT 6
+#define MAX_ELEMENTS 10
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{30, 20, 40, 70, 50},
+		{30, 50, 70, 90},
+		{80, 60, 40, 20},
+		{7, 1, 2, 3},
+		{1, 2, 3, 4},
+		{1, 2},
+	};
 
-	insertNode(&ll, 0, 30);
-	insertNode(&ll, 1, 20);
-	insertNode(&ll, 2, 40);
-	insertNode(&ll, 3, 70);
-	insertNode(&ll, 4, 50);
+	int test_sizes[TEST_COUNT] = {5, 4, 4, 4, 4, 2};
 
-	printf("\nbefore exchange: ");
-	printList(&ll);
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll;
 
-	moveMaxToFront(&(ll.head));
+		// Initialize the linked list 1 as an empty linked list
+		ll.head = NULL;
+		ll.size = 0;
 
-	printf("\nafter exchange: ");
-	printList(&ll);
+		for (int j = 0; j < test_sizes[i]; j++)
+			insertNode(&ll, j, test_cases[i][j]);
 
-	removeAllItems(&ll);
-	putchar('\n');
-}
+		printf("\nbefore exchange: ");
+		printList(&ll);
 
-void testCase2(void)
-{
-	printf("**************** test case 2 ****************\n");
-	LinkedList ll;
+		moveMaxToFront(&(ll.head));
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+		printf("\nafter exchange: ");
+		printList(&ll);
 
-	insertNode(&ll, 0, 30);
-	insertNode(&ll, 1, 50);
-	insertNode(&ll, 2, 70);
-	insertNode(&ll, 3, 90);
+		removeAllItems(&ll);
+		putchar('\n');
+	}
 
-	printf("\nbefore exchange: ");
-	printList(&ll);
-
-	moveMaxToFront(&(ll.head));
-
-	printf("\nafter exchange: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
-}
-
-void testCase3(void)
-{
-	printf("**************** test case 3 ****************\n");
-	LinkedList ll;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-
-	insertNode(&ll, 0, 80);
-	insertNode(&ll, 1, 60);
-	insertNode(&ll, 2, 40);
-	insertNode(&ll, 3, 20);
-
-	printf("\nbefore exchange: ");
-	printList(&ll);
-
-	moveMaxToFront(&(ll.head));
-
-	printf("\nafter exchange: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
+	printf("============= Smoke Test Complete =============\n");
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -191,12 +144,12 @@ int moveMaxToFront(ListNode **ptrHead)
 	// 노드가 없거나 노드가 하나만 있는 리스트라면 함수를 실행할 필요 없음
 	if (ptrHead == NULL || (*ptrHead)->next == NULL)
 		return -1;
-	
-	ListNode* max_node = *ptrHead;
-	ListNode* max_prev = NULL;
 
-	ListNode* ptr = (*ptrHead)->next;
-	ListNode* prev = *ptrHead;
+	ListNode *max_node = *ptrHead;
+	ListNode *max_prev = NULL;
+
+	ListNode *ptr = (*ptrHead)->next;
+	ListNode *prev = *ptrHead;
 	while (ptr != NULL)
 	{
 		if (ptr->item > max_node->item)
@@ -220,7 +173,8 @@ int moveMaxToFront(ListNode **ptrHead)
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void printList(LinkedList *ll){
+void printList(LinkedList *ll)
+{
 
 	ListNode *cur;
 	if (ll == NULL)
@@ -237,7 +191,8 @@ void printList(LinkedList *ll){
 	printf("\n");
 }
 
-ListNode * findNode(LinkedList *ll, int index){
+ListNode *findNode(LinkedList *ll, int index)
+{
 
 	ListNode *temp;
 
@@ -249,7 +204,8 @@ ListNode * findNode(LinkedList *ll, int index){
 	if (temp == NULL || index < 0)
 		return NULL;
 
-	while (index > 0){
+	while (index > 0)
+	{
 		temp = temp->next;
 		if (temp == NULL)
 			return NULL;
@@ -259,7 +215,8 @@ ListNode * findNode(LinkedList *ll, int index){
 	return temp;
 }
 
-int insertNode(LinkedList *ll, int index, int value){
+int insertNode(LinkedList *ll, int index, int value)
+{
 
 	ListNode *pre, *cur;
 
@@ -267,7 +224,8 @@ int insertNode(LinkedList *ll, int index, int value){
 		return -1;
 
 	// If empty list or inserting first node, need to update head pointer
-	if (ll->head == NULL || index == 0){
+	if (ll->head == NULL || index == 0)
+	{
 		cur = ll->head;
 		ll->head = malloc(sizeof(ListNode));
 		ll->head->item = value;
@@ -276,10 +234,10 @@ int insertNode(LinkedList *ll, int index, int value){
 		return 0;
 	}
 
-
 	// Find the nodes before and at the target position
 	// Create a new node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	if ((pre = findNode(ll, index - 1)) != NULL)
+	{
 		cur = pre->next;
 		pre->next = malloc(sizeof(ListNode));
 		pre->next->item = value;
@@ -291,8 +249,8 @@ int insertNode(LinkedList *ll, int index, int value){
 	return -1;
 }
 
-
-int removeNode(LinkedList *ll, int index){
+int removeNode(LinkedList *ll, int index)
+{
 
 	ListNode *pre, *cur;
 
@@ -301,7 +259,8 @@ int removeNode(LinkedList *ll, int index){
 		return -1;
 
 	// If removing first node, need to update head pointer
-	if (index == 0){
+	if (index == 0)
+	{
 		cur = ll->head->next;
 		free(ll->head);
 		ll->head = cur;
@@ -312,7 +271,8 @@ int removeNode(LinkedList *ll, int index){
 
 	// Find the nodes before and after the target position
 	// Free the target node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	if ((pre = findNode(ll, index - 1)) != NULL)
+	{
 
 		if (pre->next == NULL)
 			return -1;
@@ -332,7 +292,8 @@ void removeAllItems(LinkedList *ll)
 	ListNode *cur = ll->head;
 	ListNode *tmp;
 
-	while (cur != NULL){
+	while (cur != NULL)
+	{
 		tmp = cur->next;
 		free(cur);
 		cur = tmp;
