@@ -35,11 +35,23 @@ ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+/// test functions ///
+void test_wrapping(void);
+void testCase1(void);
+void testCase2(void);
+void testCase3(void);
+void testCase4(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+	printf("[DEBUG MODE] Running test functions\n");
+	test_wrapping();
+	return 0;
+#endif
+
 	int c, i, j;
 	c = 1;
 
@@ -86,9 +98,124 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
+void test_wrapping(void)
+{
+	testCase1();
+	testCase2();
+	testCase3();
+}
+
+void testCase1(void)
+{
+	printf("**************** test case 1 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 30);
+	insertNode(&ll, 1, 20);
+	insertNode(&ll, 2, 40);
+	insertNode(&ll, 3, 70);
+	insertNode(&ll, 4, 50);
+
+	printf("\nbefore exchange: ");
+	printList(&ll);
+
+	moveMaxToFront(&(ll.head));
+
+	printf("\nafter exchange: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase2(void)
+{
+	printf("**************** test case 2 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 30);
+	insertNode(&ll, 1, 50);
+	insertNode(&ll, 2, 70);
+	insertNode(&ll, 3, 90);
+
+	printf("\nbefore exchange: ");
+	printList(&ll);
+
+	moveMaxToFront(&(ll.head));
+
+	printf("\nafter exchange: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase3(void)
+{
+	printf("**************** test case 3 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 80);
+	insertNode(&ll, 1, 60);
+	insertNode(&ll, 2, 40);
+	insertNode(&ll, 3, 20);
+
+	printf("\nbefore exchange: ");
+	printList(&ll);
+
+	moveMaxToFront(&(ll.head));
+
+	printf("\nafter exchange: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+////////////////////////////////////////////////////////////////////////
+
 int moveMaxToFront(ListNode **ptrHead)
 {
-    /* add your code here */
+	// 노드가 없거나 노드가 하나만 있는 리스트라면 함수를 실행할 필요 없음
+	if (ptrHead == NULL || (*ptrHead)->next == NULL)
+		return -1;
+	
+	ListNode* max_node = *ptrHead;
+	ListNode* max_prev = NULL;
+
+	ListNode* ptr = (*ptrHead)->next;
+	ListNode* prev = *ptrHead;
+	while (ptr != NULL)
+	{
+		if (ptr->item > max_node->item)
+		{
+			max_node = ptr;
+			max_prev = prev;
+		}
+		prev = ptr;
+		ptr = ptr->next;
+	}
+
+	// max_node가 리스트의 첫 노드라면 교환할 필요 없음
+	if (max_node != *ptrHead)
+	{
+		max_prev->next = max_node->next;
+		max_node->next = *ptrHead;
+		*ptrHead = max_node;
+	}
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
