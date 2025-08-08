@@ -35,10 +35,23 @@ ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+/// test functions ///
+void test_wrapping(void);
+void testCase1(void);
+void testCase2(void);
+void testCase3(void);
+void testCase4(void);
+
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+	printf("[DEBUG MODE] Running test functions\n");
+	test_wrapping();
+	return 0;
+#endif
+
 	LinkedList ll;
 	int c, i, j;
 	c = 1;
@@ -84,9 +97,161 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+void test_wrapping(void)
+{
+	testCase1();
+	testCase2();
+	testCase3();
+	testCase4();
+}
+
+void testCase1(void)
+{
+	printf("**************** test case 1 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 2);
+	insertNode(&ll, 1, 3);
+	insertNode(&ll, 2, 4);
+	insertNode(&ll, 3, 7);
+	insertNode(&ll, 4, 5);
+	insertNode(&ll, 5, 15);
+	insertNode(&ll, 6, 18);
+
+	printf("\nbefore move: ");
+	printList(&ll);
+
+	moveEvenItemsToBack(&ll);
+
+	printf("\nafter move: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase2(void)
+{
+	printf("**************** test case 2 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 3);
+	insertNode(&ll, 1, 5);
+	insertNode(&ll, 2, 7);
+	insertNode(&ll, 3, 9);
+
+	printf("\nbefore move: ");
+	printList(&ll);
+
+	moveEvenItemsToBack(&ll);
+
+	printf("\nafter move: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase3(void)
+{
+	printf("**************** test case 3 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 2);
+	insertNode(&ll, 1, 4);
+	insertNode(&ll, 2, 6);
+	insertNode(&ll, 3, 8);
+
+	printf("\nbefore move: ");
+	printList(&ll);
+
+	moveEvenItemsToBack(&ll);
+
+	printf("\nafter move: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase4(void)
+{
+	printf("**************** test case 4 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 3);
+	insertNode(&ll, 1, 4);
+	insertNode(&ll, 2, 7);
+	insertNode(&ll, 3, 5);
+	insertNode(&ll, 4, 15);
+	insertNode(&ll, 5, 18);
+
+	printf("\nbefore move: ");
+	printList(&ll);
+
+	moveEvenItemsToBack(&ll);
+
+	printf("\nafter move: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
 void moveEvenItemsToBack(LinkedList *ll)
 {
-	/* add your code here */
+	// ll에 노드가 하나 있으면 함수를 실행할 필요 없음
+	if (ll == NULL || ll->size < 2)
+		return;
+
+	ListNode *cur = ll->head;
+	ListNode *prev = NULL;
+	for (int i = 0; i < ll->size; i++)
+	{
+		if (cur->item % 2 == 0)
+		{
+			// 대상 노드가 head일 경우 head 최신화 필요
+			if (cur == ll->head)
+			{
+				ListNode *ptr = findNode(ll, ll->size - 1);
+				ll->head = cur->next;
+				cur->next = NULL;
+				ptr->next = cur;
+				cur = ll->head;
+			}
+			else
+			{
+				ListNode *ptr = findNode(ll, ll->size - 1);
+				prev->next = cur->next;
+				ptr->next = cur;
+				cur->next = NULL;
+				cur = prev->next;
+			}
+		}
+		else
+		{
+			prev = cur;
+			cur = cur->next;
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
