@@ -10,8 +10,7 @@
 *.dSYM/
 
 # IDE files
-.vscode/settings.json
-.vscode/launch.json
+.vscode/
 
 # Build directory
 build/
