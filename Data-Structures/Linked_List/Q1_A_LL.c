@@ -43,7 +43,11 @@ void testCase2(void);
 
 int main()
 {
-	// test_wrapping();
+#ifdef DEBUG
+	printf("[DEBUG MODE] Running test functions\n");
+	test_wrapping();
+	return 0;
+#endif
 
 	LinkedList ll;
 	int c, i, j;
