@@ -213,10 +213,10 @@ void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 		loop_cnt = ll1->size;
 
 	for (int i = 0; i < 2 * loop_cnt; i += 2)
-		{
-			insertNode(ll1, i + 1, ll2->head->item);
-			removeNode(ll2, 0);
-		}
+	{
+		insertNode(ll1, i + 1, ll2->head->item);
+		removeNode(ll2, 0);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
