@@ -35,11 +35,22 @@ ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+/// test functions ///
+void test_wrapping(void);
+void testCase1(void);
+void testCase2(void);
+void testCase3(void);
+void testCase4(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+	printf("[DEBUG MODE] Running test functions\n");
+	test_wrapping();
+	return 0;
+#endif
 	LinkedList ll;
 	int c, i, j;
 	c = 1;
@@ -85,9 +96,142 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
+void test_wrapping(void)
+{
+	testCase1();
+	testCase2();
+	testCase3();
+	testCase4();
+}
+
+void testCase1(void)
+{
+	printf("**************** test case 1 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 1);
+	insertNode(&ll, 1, 2);
+	insertNode(&ll, 2, 3);
+	insertNode(&ll, 3, 4);
+	insertNode(&ll, 4, 5);
+
+	printf("\nbefore reverse: ");
+	printList(&ll);
+
+	RecursiveReverse(&(ll.head));
+
+	printf("\nafter reverse: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase2(void)
+{
+	printf("**************** test case 2 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 1);
+	insertNode(&ll, 1, 2);
+
+	printf("\nbefore reverse: ");
+	printList(&ll);
+
+	RecursiveReverse(&(ll.head));
+
+	printf("\nafter reverse: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase3(void)
+{
+	printf("**************** test case 3 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+
+	insertNode(&ll, 0, 2);
+	insertNode(&ll, 1, 4);
+	insertNode(&ll, 2, 6);
+	insertNode(&ll, 3, 8);
+
+	printf("\nbefore reverse: ");
+	printList(&ll);
+
+	RecursiveReverse(&(ll.head));
+
+	printf("\nafter reverse: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+void testCase4(void)
+{
+	printf("**************** test case 4 ****************\n");
+	LinkedList ll;
+
+	// Initialize the linked list 1 as an empty linked list
+	ll.head = NULL;
+	ll.size = 0;
+	
+
+	insertNode(&ll, 0, 3);
+	insertNode(&ll, 1, 4);
+	insertNode(&ll, 2, 7);
+	insertNode(&ll, 3, 5);
+	insertNode(&ll, 4, 15);
+	insertNode(&ll, 5, 18);
+
+	printf("\nbefore reverse: ");
+	printList(&ll);
+
+	RecursiveReverse(&(ll.head));
+
+	printf("\nafter reverse: ");
+	printList(&ll);
+
+	removeAllItems(&ll);
+	putchar('\n');
+}
+
+////////////////////////////////////////////////////////////////////////
+
+static ListNode* RecursiveReverseUtil(ListNode* cur, ListNode* prev)
+{
+	if (cur->next == NULL)
+	{
+		cur->next = prev;
+		return cur;
+	}
+
+	ListNode* next_head = RecursiveReverseUtil(cur->next, cur);
+	cur->next = prev;
+	return next_head;
+}
+
 void RecursiveReverse(ListNode **ptrHead)
 {
-	/* add your code here */
+	// 리스트가 없거나 노드가 하나만 있는 리스트에 대해서는 이 함수를 실행하지 않아도 됨
+	if (ptrHead == NULL || (*ptrHead)->next == NULL)
+		return;
+
+	*(ptrHead) = RecursiveReverseUtil(*ptrHead, NULL);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
