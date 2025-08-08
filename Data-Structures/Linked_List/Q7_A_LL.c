@@ -15,14 +15,13 @@ typedef struct _listnode
 {
 	int item;
 	struct _listnode *next;
-} ListNode;			// You should not change the definition of ListNode
+} ListNode; // You should not change the definition of ListNode
 
 typedef struct _linkedlist
 {
 	int size;
 	ListNode *head;
-} LinkedList;			// You should not change the definition of LinkedList
-
+} LinkedList; // You should not change the definition of LinkedList
 
 //////////////////////// function prototypes /////////////////////////////////////
 
@@ -31,16 +30,12 @@ void RecursiveReverse(ListNode **ptrHead);
 
 void printList(LinkedList *ll);
 void removeAllItems(LinkedList *ll);
-ListNode * findNode(LinkedList *ll, int index);
+ListNode *findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 /// test functions ///
-void test_wrapping(void);
-void testCase1(void);
-void testCase2(void);
-void testCase3(void);
-void testCase4(void);
+void smokeTest(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -48,16 +43,15 @@ int main()
 {
 #ifdef DEBUG
 	printf("[DEBUG MODE] Running test functions\n");
-	test_wrapping();
+	smokeTest();
 	return 0;
 #endif
 	LinkedList ll;
 	int c, i, j;
 	c = 1;
-	//Initialize the linked list 1 as an empty linked list
+	// Initialize the linked list 1 as an empty linked list
 	ll.head = NULL;
 	ll.size = 0;
-
 
 	printf("1: Insert an integer to the linked list:\n");
 	printf("2: Reversed the linked list:\n");
@@ -96,123 +90,51 @@ int main()
 
 ////////////////////////////////////////////////////////////////////////
 
-void test_wrapping(void)
+void smokeTest(void)
 {
-	testCase1();
-	testCase2();
-	testCase3();
-	testCase4();
-}
+	printf("============== Smoke Test Start ==============\n\n");
 
-void testCase1(void)
-{
-	printf("**************** test case 1 ****************\n");
-	LinkedList ll;
+#define TEST_COUNT 4
+#define MAX_ELEMENTS 10
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{1, 2, 3, 4, 5},
+		{1, 2},
+		{2, 4, 6, 8},
+		{3, 4, 7, 5, 15, 18}};
 
-	insertNode(&ll, 0, 1);
-	insertNode(&ll, 1, 2);
-	insertNode(&ll, 2, 3);
-	insertNode(&ll, 3, 4);
-	insertNode(&ll, 4, 5);
+	int test_sizes[TEST_COUNT] = {5, 2, 4, 6};
 
-	printf("\nbefore reverse: ");
-	printList(&ll);
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll;
 
-	RecursiveReverse(&(ll.head));
+		// Initialize the linked list 1 as an empty linked list
+		ll.head = NULL;
+		ll.size = 0;
 
-	printf("\nafter reverse: ");
-	printList(&ll);
+		for (int j = 0; j < test_sizes[i]; j++)
+			insertNode(&ll, j, test_cases[i][j]);
 
-	removeAllItems(&ll);
-	putchar('\n');
-}
+		printf("\nbefore reverse: ");
+		printList(&ll);
 
-void testCase2(void)
-{
-	printf("**************** test case 2 ****************\n");
-	LinkedList ll;
+		RecursiveReverse(&(ll.head));
 
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
+		printf("\nafter reverse: ");
+		printList(&ll);
 
-	insertNode(&ll, 0, 1);
-	insertNode(&ll, 1, 2);
+		removeAllItems(&ll);
+		putchar('\n');
+	}
 
-	printf("\nbefore reverse: ");
-	printList(&ll);
-
-	RecursiveReverse(&(ll.head));
-
-	printf("\nafter reverse: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
-}
-
-void testCase3(void)
-{
-	printf("**************** test case 3 ****************\n");
-	LinkedList ll;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-
-	insertNode(&ll, 0, 2);
-	insertNode(&ll, 1, 4);
-	insertNode(&ll, 2, 6);
-	insertNode(&ll, 3, 8);
-
-	printf("\nbefore reverse: ");
-	printList(&ll);
-
-	RecursiveReverse(&(ll.head));
-
-	printf("\nafter reverse: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
-}
-
-void testCase4(void)
-{
-	printf("**************** test case 4 ****************\n");
-	LinkedList ll;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll.head = NULL;
-	ll.size = 0;
-	
-
-	insertNode(&ll, 0, 3);
-	insertNode(&ll, 1, 4);
-	insertNode(&ll, 2, 7);
-	insertNode(&ll, 3, 5);
-	insertNode(&ll, 4, 15);
-	insertNode(&ll, 5, 18);
-
-	printf("\nbefore reverse: ");
-	printList(&ll);
-
-	RecursiveReverse(&(ll.head));
-
-	printf("\nafter reverse: ");
-	printList(&ll);
-
-	removeAllItems(&ll);
-	putchar('\n');
+	printf("============= Smoke Test Complete =============\n");
 }
 
 ////////////////////////////////////////////////////////////////////////
 
-static ListNode* RecursiveReverseUtil(ListNode* cur, ListNode* prev)
+static ListNode *RecursiveReverseUtil(ListNode *cur, ListNode *prev)
 {
 	if (cur->next == NULL)
 	{
@@ -220,7 +142,7 @@ static ListNode* RecursiveReverseUtil(ListNode* cur, ListNode* prev)
 		return cur;
 	}
 
-	ListNode* next_head = RecursiveReverseUtil(cur->next, cur);
+	ListNode *next_head = RecursiveReverseUtil(cur->next, cur);
 	cur->next = prev;
 	return next_head;
 }
@@ -236,7 +158,8 @@ void RecursiveReverse(ListNode **ptrHead)
 
 //////////////////////////////////////////////////////////////////////////////////
 
-void printList(LinkedList *ll){
+void printList(LinkedList *ll)
+{
 
 	ListNode *cur;
 	if (ll == NULL)
@@ -253,7 +176,8 @@ void printList(LinkedList *ll){
 	printf("\n");
 }
 
-ListNode * findNode(LinkedList *ll, int index){
+ListNode *findNode(LinkedList *ll, int index)
+{
 
 	ListNode *temp;
 
@@ -265,7 +189,8 @@ ListNode * findNode(LinkedList *ll, int index){
 	if (temp == NULL || index < 0)
 		return NULL;
 
-	while (index > 0){
+	while (index > 0)
+	{
 		temp = temp->next;
 		if (temp == NULL)
 			return NULL;
@@ -275,7 +200,8 @@ ListNode * findNode(LinkedList *ll, int index){
 	return temp;
 }
 
-int insertNode(LinkedList *ll, int index, int value){
+int insertNode(LinkedList *ll, int index, int value)
+{
 
 	ListNode *pre, *cur;
 
@@ -283,7 +209,8 @@ int insertNode(LinkedList *ll, int index, int value){
 		return -1;
 
 	// If empty list or inserting first node, need to update head pointer
-	if (ll->head == NULL || index == 0){
+	if (ll->head == NULL || index == 0)
+	{
 		cur = ll->head;
 		ll->head = malloc(sizeof(ListNode));
 		ll->head->item = value;
@@ -292,10 +219,10 @@ int insertNode(LinkedList *ll, int index, int value){
 		return 0;
 	}
 
-
 	// Find the nodes before and at the target position
 	// Create a new node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	if ((pre = findNode(ll, index - 1)) != NULL)
+	{
 		cur = pre->next;
 		pre->next = malloc(sizeof(ListNode));
 		pre->next->item = value;
@@ -307,8 +234,8 @@ int insertNode(LinkedList *ll, int index, int value){
 	return -1;
 }
 
-
-int removeNode(LinkedList *ll, int index){
+int removeNode(LinkedList *ll, int index)
+{
 
 	ListNode *pre, *cur;
 
@@ -317,7 +244,8 @@ int removeNode(LinkedList *ll, int index){
 		return -1;
 
 	// If removing first node, need to update head pointer
-	if (index == 0){
+	if (index == 0)
+	{
 		cur = ll->head->next;
 		free(ll->head);
 		ll->head = cur;
@@ -328,7 +256,8 @@ int removeNode(LinkedList *ll, int index){
 
 	// Find the nodes before and after the target position
 	// Free the target node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	if ((pre = findNode(ll, index - 1)) != NULL)
+	{
 
 		if (pre->next == NULL)
 			return -1;
@@ -348,7 +277,8 @@ void removeAllItems(LinkedList *ll)
 	ListNode *cur = ll->head;
 	ListNode *tmp;
 
-	while (cur != NULL){
+	while (cur != NULL)
+	{
 		tmp = cur->next;
 		free(cur);
 		cur = tmp;

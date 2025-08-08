@@ -15,14 +15,13 @@ typedef struct _listnode
 {
 	int item;
 	struct _listnode *next;
-} ListNode;			// You should not change the definition of ListNode
+} ListNode; // You should not change the definition of ListNode
 
 typedef struct _linkedlist
 {
 	int size;
 	ListNode *head;
-} LinkedList;			// You should not change the definition of LinkedList
-
+} LinkedList; // You should not change the definition of LinkedList
 
 //////////////////////// function prototypes /////////////////////////////////////
 
@@ -36,6 +35,7 @@ int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 /// test function ///
+void smokeTest(void);
 void test_wrapping(void);
 void testCase1(void);
 void testCase2(void);
@@ -46,18 +46,18 @@ int main()
 {
 #ifdef DEBUG
 	printf("[DEBUG MODE] Running test functions\n");
-	test_wrapping();
+	smokeTest();
 	return 0;
 #endif
 
 	LinkedList ll1, ll2;
 	int c, i, j;
 	c = 1;
-	//Initialize the linked list 1 as an empty linked list
+	// Initialize the linked list 1 as an empty linked list
 	ll1.head = NULL;
 	ll1.size = 0;
 
-	//Initialize the linked list 2 as an empty linked list
+	// Initialize the linked list 2 as an empty linked list
 	ll2.head = NULL;
 	ll2.size = 0;
 
@@ -88,7 +88,7 @@ int main()
 			printList(&ll2);
 			break;
 		case 3:
-		    printf("The resulting linked lists after merging the given linked list are:\n");
+			printf("The resulting linked lists after merging the given linked list are:\n");
 			alternateMergeLinkedList(&ll1, &ll2); // You need to code this function
 			printf("The resulting linked list 1: ");
 			printList(&ll1);
@@ -111,6 +111,75 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+void smokeTest(void)
+{
+	printf("============== Smoke Test Start ==============\n\n");
+
+#define TEST_COUNT 7
+#define MAX_ELEMENTS 10
+
+	int test_cases1[TEST_COUNT][MAX_ELEMENTS] = {
+		{1, 2, 3},
+		{1, 5, 7, 3, 9, 11},
+		{1, 2, 3},
+		{},
+		{1, 2, 3},
+		{1, 2, 3},
+		{1, 2},
+	};
+	int test_sizes1[TEST_COUNT] = {3, 6, 3, 0, 3, 3, 2};
+
+	int test_cases2[TEST_COUNT][MAX_ELEMENTS] = {
+		{4, 5, 6, 7},
+		{6, 10, 2, 4},
+		{},
+		{1, 2, 3},
+		{5},
+		{4, 5, 6},
+		{5, 6, 7, 8}};
+	int test_sizes2[TEST_COUNT] = {4, 4, 0, 3, 1, 3, 4};
+
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll1, ll2;
+
+		// Initialize the linked list 1 as an empty linked list
+		ll1.head = NULL;
+		ll1.size = 0;
+
+		// Initialize the linked list 2 as an empty linked list
+		ll2.head = NULL;
+		ll2.size = 0;
+
+		for (int j = 0; j < test_sizes1[i]; j++)
+			insertNode(&ll1, j, test_cases1[i][j]);
+
+		for (int j = 0; j < test_sizes2[i]; j++)
+			insertNode(&ll2, j, test_cases2[i][j]);
+
+		printf("\nbefore merge:\n");
+		printf("LinkedList1: ");
+		printList(&ll1);
+		printf("LinkedList2: ");
+		printList(&ll2);
+
+		alternateMergeLinkedList(&ll1, &ll2);
+
+		printf("\nafter merge:\n");
+		printf("LinkedList1: ");
+		printList(&ll1);
+		printf("LinkedList2: ");
+		printList(&ll2);
+
+		removeAllItems(&ll1);
+		removeAllItems(&ll2);
+		putchar('\n');
+	}
+
+	printf("============= Smoke Test Complete =============\n");
+}
+
 void test_wrapping(void)
 {
 	testCase1();
@@ -122,11 +191,11 @@ void testCase1(void)
 	printf("**************** test case 1 ****************\n");
 	LinkedList ll1, ll2;
 
-	//Initialize the linked list 1 as an empty linked list
+	// Initialize the linked list 1 as an empty linked list
 	ll1.head = NULL;
 	ll1.size = 0;
 
-	//Initialize the linked list 2 as an empty linked list
+	// Initialize the linked list 2 as an empty linked list
 	ll2.head = NULL;
 	ll2.size = 0;
 
@@ -163,11 +232,11 @@ void testCase2(void)
 	printf("**************** test case 2 ****************\n");
 	LinkedList ll1, ll2;
 
-	//Initialize the linked list 1 as an empty linked list
+	// Initialize the linked list 1 as an empty linked list
 	ll1.head = NULL;
 	ll1.size = 0;
 
-	//Initialize the linked list 2 as an empty linked list
+	// Initialize the linked list 2 as an empty linked list
 	ll2.head = NULL;
 	ll2.size = 0;
 
@@ -207,7 +276,7 @@ void testCase2(void)
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
 	int loop_cnt = 0;
-    if (ll1->size >= ll2->size)
+	if (ll1->size >= ll2->size)
 		loop_cnt = ll2->size;
 	else
 		loop_cnt = ll1->size;
@@ -221,7 +290,8 @@ void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-void printList(LinkedList *ll){
+void printList(LinkedList *ll)
+{
 
 	ListNode *cur;
 	if (ll == NULL)
@@ -238,13 +308,13 @@ void printList(LinkedList *ll){
 	printf("\n");
 }
 
-
 void removeAllItems(LinkedList *ll)
 {
 	ListNode *cur = ll->head;
 	ListNode *tmp;
 
-	while (cur != NULL){
+	while (cur != NULL)
+	{
 		tmp = cur->next;
 		free(cur);
 		cur = tmp;
@@ -253,8 +323,8 @@ void removeAllItems(LinkedList *ll)
 	ll->size = 0;
 }
 
-
-ListNode *findNode(LinkedList *ll, int index){
+ListNode *findNode(LinkedList *ll, int index)
+{
 
 	ListNode *temp;
 
@@ -266,7 +336,8 @@ ListNode *findNode(LinkedList *ll, int index){
 	if (temp == NULL || index < 0)
 		return NULL;
 
-	while (index > 0){
+	while (index > 0)
+	{
 		temp = temp->next;
 		if (temp == NULL)
 			return NULL;
@@ -276,7 +347,8 @@ ListNode *findNode(LinkedList *ll, int index){
 	return temp;
 }
 
-int insertNode(LinkedList *ll, int index, int value){
+int insertNode(LinkedList *ll, int index, int value)
+{
 
 	ListNode *pre, *cur;
 
@@ -284,7 +356,8 @@ int insertNode(LinkedList *ll, int index, int value){
 		return -1;
 
 	// If empty list or inserting first node, need to update head pointer
-	if (ll->head == NULL || index == 0){
+	if (ll->head == NULL || index == 0)
+	{
 		cur = ll->head;
 		ll->head = malloc(sizeof(ListNode));
 		ll->head->item = value;
@@ -293,10 +366,10 @@ int insertNode(LinkedList *ll, int index, int value){
 		return 0;
 	}
 
-
 	// Find the nodes before and at the target position
 	// Create a new node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	if ((pre = findNode(ll, index - 1)) != NULL)
+	{
 		cur = pre->next;
 		pre->next = malloc(sizeof(ListNode));
 		pre->next->item = value;
@@ -308,8 +381,8 @@ int insertNode(LinkedList *ll, int index, int value){
 	return -1;
 }
 
-
-int removeNode(LinkedList *ll, int index){
+int removeNode(LinkedList *ll, int index)
+{
 
 	ListNode *pre, *cur;
 
@@ -318,7 +391,8 @@ int removeNode(LinkedList *ll, int index){
 		return -1;
 
 	// If removing first node, need to update head pointer
-	if (index == 0){
+	if (index == 0)
+	{
 		cur = ll->head->next;
 		free(ll->head);
 		ll->head = cur;
@@ -329,7 +403,8 @@ int removeNode(LinkedList *ll, int index){
 
 	// Find the nodes before and after the target position
 	// Free the target node and reconnect the links
-	if ((pre = findNode(ll, index - 1)) != NULL){
+	if ((pre = findNode(ll, index - 1)) != NULL)
+	{
 
 		if (pre->next == NULL)
 			return -1;
