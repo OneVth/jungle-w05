@@ -36,9 +36,6 @@ int removeNode(LinkedList *ll, int index);
 
 /// test function ///
 void smokeTest(void);
-void test_wrapping(void);
-void testCase1(void);
-void testCase2(void);
 
 //////////////////////////// main() //////////////////////////////////////////////
 
@@ -178,97 +175,6 @@ void smokeTest(void)
 	}
 
 	printf("============= Smoke Test Complete =============\n");
-}
-
-void test_wrapping(void)
-{
-	testCase1();
-	testCase2();
-}
-
-void testCase1(void)
-{
-	printf("**************** test case 1 ****************\n");
-	LinkedList ll1, ll2;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll1.head = NULL;
-	ll1.size = 0;
-
-	// Initialize the linked list 2 as an empty linked list
-	ll2.head = NULL;
-	ll2.size = 0;
-
-	insertNode(&ll1, 0, 1);
-	insertNode(&ll1, 1, 2);
-	insertNode(&ll1, 2, 3);
-
-	insertNode(&ll2, 0, 4);
-	insertNode(&ll2, 1, 5);
-	insertNode(&ll2, 2, 6);
-	insertNode(&ll2, 3, 7);
-
-	printf("\nbefore merge:\n");
-	printf("LinkedList1: ");
-	printList(&ll1);
-	printf("LinkedList1: ");
-	printList(&ll2);
-
-	alternateMergeLinkedList(&ll1, &ll2);
-
-	printf("\nafter merge: ");
-	printf("LinkedList1: ");
-	printList(&ll1);
-	printf("LinkedList1: ");
-	printList(&ll2);
-
-	removeAllItems(&ll1);
-	removeAllItems(&ll2);
-	putchar('\n');
-}
-
-void testCase2(void)
-{
-	printf("**************** test case 2 ****************\n");
-	LinkedList ll1, ll2;
-
-	// Initialize the linked list 1 as an empty linked list
-	ll1.head = NULL;
-	ll1.size = 0;
-
-	// Initialize the linked list 2 as an empty linked list
-	ll2.head = NULL;
-	ll2.size = 0;
-
-	insertNode(&ll1, 0, 1);
-	insertNode(&ll1, 1, 5);
-	insertNode(&ll1, 2, 7);
-	insertNode(&ll1, 3, 3);
-	insertNode(&ll1, 4, 9);
-	insertNode(&ll1, 5, 11);
-
-	insertNode(&ll2, 0, 6);
-	insertNode(&ll2, 1, 10);
-	insertNode(&ll2, 2, 2);
-	insertNode(&ll2, 3, 4);
-
-	printf("\nbefore merge:\n");
-	printf("LinkedList1: ");
-	printList(&ll1);
-	printf("LinkedList1: ");
-	printList(&ll2);
-
-	alternateMergeLinkedList(&ll1, &ll2);
-
-	printf("\nafter merge: ");
-	printf("LinkedList1: ");
-	printList(&ll1);
-	printf("LinkedList1: ");
-	printList(&ll2);
-
-	removeAllItems(&ll1);
-	removeAllItems(&ll2);
-	putchar('\n');
 }
 
 //////////////////////////////////////////////////////////////////////////////////
