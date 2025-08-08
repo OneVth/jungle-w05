@@ -161,6 +161,9 @@ void testCase2(void)
 
 int insertSortedLL(LinkedList *ll, int item)
 {
+	if (ll == NULL)
+		return -1;
+		
 	ListNode *cur;
 
 	// 연결 리스트가 비어 있을 때
