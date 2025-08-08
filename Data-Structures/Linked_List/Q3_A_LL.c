@@ -164,10 +164,13 @@ void moveOddItemsToBack(LinkedList *ll)
 			else
 			{
 				ListNode *ptr = findNode(ll, ll->size - 1);
-				prev->next = cur->next;
-				ptr->next = cur;
-				cur->next = NULL;
-				cur = prev->next;
+				if (ptr != cur)
+				{
+					prev->next = cur->next;
+					ptr->next = cur;
+					cur->next = NULL;
+					cur = prev->next;
+				}
 			}
 		}
 		else
