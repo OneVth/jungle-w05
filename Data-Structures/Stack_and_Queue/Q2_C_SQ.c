@@ -46,10 +46,19 @@ int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 void removeAllItems(LinkedList *ll);
 
+/// test function ///
+void smokeTest(void);
+
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+	printf("[DEBUG MODE] Running test functions\n");
+	smokeTest();
+	return 0;
+#endif
+
 	int c, i;
 	LinkedList ll;
 	Stack s;
@@ -108,12 +117,72 @@ int main()
 	return 0;
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+
+void smokeTest(void)
+{
+	printf("============== Smoke Test Start ==============\n\n");
+
+#define TEST_COUNT 3
+#define MAX_ELEMENTS 10
+
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{1, 2, 3, 4, 5},
+		{5, 4, 3, 2, 1},
+		{3, 4, 5, 1, 2},
+	};
+
+	int test_sizes[TEST_COUNT] = {5, 5, 5};
+
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		LinkedList ll;
+		Stack s;
+
+		// Initialize the linked list and queue 1 as an empty linked list
+		ll.head = NULL;
+		ll.size = 0;
+		s.ll.head = NULL;
+		s.ll.size = 0;
+
+		for (int j = 0; j < test_sizes[i]; j++)
+			insertNode(&ll, j, test_cases[i][j]);
+
+		printf("\norigin linked list: ");
+		printList(&ll);
+
+		createStackFromLinkedList(&ll, &s);
+
+		printf("\nthe resulting stack: ");
+		printList(&(s.ll));
+
+		removeAllItems(&ll);
+		removeAllItemsFromStack(&s);
+		putchar('\n');
+	}
+
+	printf("============= Smoke Test Complete =============\n");
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////
 
 void createStackFromLinkedList(LinkedList *ll, Stack *s)
 {
-    /* add your code here */
+    if (ll == NULL || s == NULL)
+		return;
+
+	if (!isEmptyStack(s))
+		removeAllItemsFromStack(s);
+
+	int cnt = ll->size;
+	ListNode *ptr = ll->head;
+	for (int i = 0; i < cnt; i++)
+	{
+		push(s, ptr->item);
+		ptr = ptr->next;
+	}
 }
 
 void removeEvenValues(Stack *s)
