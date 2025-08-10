@@ -189,7 +189,6 @@ void smokeTest(void)
                 push(&stk_right, temp->left);
         }
 
-        printf("\nbefore reverse:\n");
         printf("left tree: ");
         printTree(root_left);
         putchar('\n');
@@ -209,6 +208,7 @@ void smokeTest(void)
     }
     printf("============= Smoke Test Complete =============\n");
 }
+
 //////////////////////////////////////////////////////////////////////////////////
 
 int identical(BTNode *tree1, BTNode *tree2)
