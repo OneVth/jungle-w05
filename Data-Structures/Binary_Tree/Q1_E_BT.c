@@ -130,21 +130,29 @@ void smokeTest(void)
 {
     printf("============== Smoke Test Start ==============\n\n");
 
-#define TEST_COUNT 2
+#define TEST_COUNT 6
 #define MAX_ELEMENTS 100
 
     int test_cases1[TEST_COUNT][MAX_ELEMENTS] = {
         {5, 3, 7, 1, 2, 0, 0, 0, 0, 4, 8, 0, 0, 0, 0},
         {1, 2, 3, 0, 0, 4, 5, 0, 0, 0, 0},
+        {0},
+        {1, 0, 0},
+        {7, 0, 0},
+        {30, 20, 50, 10, 0, 0, 0, 40, 0, 0, 0},
     };
 
     int test_cases2[TEST_COUNT][MAX_ELEMENTS] = {
         {5, 3, 7, 1, 2, 0, 0, 0, 0, 4, 8, 0, 0, 0, 0},
         {1, 2, 3, 0, 0, 4, 0},
+        {0},
+        {0},
+        {8, 0, 0},
+        {30, 10, 50, 0, 20, 0, 0, 40, 0, 0, 0},
     };
 
-    int test_sizes1[TEST_COUNT] = {15, 11};
-    int test_sizes2[TEST_COUNT] = {15, 7};
+    int test_sizes1[TEST_COUNT] = {15, 11, 1, 3, 3, 11};
+    int test_sizes2[TEST_COUNT] = {15, 7, 1, 1, 3, 11};
 
     for (int i = 0; i < TEST_COUNT; i++)
     {
