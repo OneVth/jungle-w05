@@ -46,10 +46,18 @@ BTNode* pop(Stack *stack);
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
 
+/// test function ///
+void smokeTest(void);
+
 ///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+    printf("[DEBUG MODE] Running test functions\n");
+    smokeTest();
+    return 0;
+#endif
     char e;
     int c;
     BTNode *root;
@@ -103,9 +111,79 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+void smokeTest(void)
+{
+    printf("============== Smoke Test Start ==============\n\n");
+
+#define TEST_COUNT 7
+#define MAX_ELEMENTS 100
+
+    int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+        {4, 5, 2, 0, 6, 0, 0, 3, 1, 0, 0, 0, 0},
+        {50, 40, 60, 11, 35, 0, 0, 0, 0, 80, 85, 0, 0, 0, 0},
+        {50, 20, 60, 10, 30, 0, 0, 55, 0, 0, 80, 0, 0},
+        {4, 2, 6, 1, 3, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0},
+        {5, 3, 7, 1, 2, 9, 0, 0, 0, 0, 0, 4, 8, 0, 0, 0, 0},
+        {1, 2, 3, 0, 0, 4, 5, 0, 0, 0, 0},
+        {1, 2, 3, 0, 0, 0, 0},
+    };
+
+    int test_sizes[TEST_COUNT] = {13, 15, 13, 15, 15, 11, 7};
+
+    for (int i = 0; i < TEST_COUNT; i++)
+    {
+        printf("**************** test case %02d ****************\n", i + 1);
+        Stack stk;
+        BTNode *root, *temp;
+
+        stk.top = NULL;
+        root = NULL;
+
+        root = createBTNode(test_cases[i][0]);
+        push(&stk, root);
+
+        for (int j = 1; j < test_sizes[i]; j++)
+        {
+            temp = pop(&stk);
+            if (test_cases[i][j] != 0)
+                temp->left = createBTNode(test_cases[i][j]);
+            if (test_cases[i][++j] != 0)
+                temp->right = createBTNode(test_cases[i][j]);
+
+            if (temp->right != NULL)
+                push(&stk, temp->right);
+            if (temp->left != NULL)
+                push(&stk, temp->left);
+        }
+
+        printf("before mirror: ");
+        printTree(root);
+        putchar('\n');
+
+        mirrorTree(root);
+
+        printf("after mirror: ");
+        printTree(root);
+        putchar('\n');
+
+        removeAll(&root);
+        putchar('\n');
+    }
+    printf("============= Smoke Test Complete =============\n");
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
 void mirrorTree(BTNode *node)
 {
-	/* add your code here */
+	if (node == NULL)
+        return;
+
+    BTNode* temp = node->left;
+    node->left = node->right;
+    node->right = temp;
+    mirrorTree(node->left);
+    mirrorTree(node->right);
 }
 
 //////////////////////////////////////////////////////////////////////////////////
