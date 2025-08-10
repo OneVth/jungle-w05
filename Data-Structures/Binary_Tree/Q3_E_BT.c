@@ -114,14 +114,14 @@ void smokeTest(void)
 #define MAX_ELEMENTS 100
 
     int test_cases1[TEST_COUNT][MAX_ELEMENTS] = {
-        {50, 20, 60, 10, 30, 0, 0, 55, 0, 0, 80, 0, 0},
+        {50, 20, 60, 10, 30, 0, 0, 55, 0, 0, 80, 0, 0, 0, 0},
         {4, 2, 6, 1, 3, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0},
         {5, 3, 7, 1, 2, 9, 0, 0, 0, 0, 0, 4, 8, 0, 0, 0, 0},
         {1, 2, 3, 0, 0, 4, 5, 0, 0, 0, 0},
         {1, 2, 3, 0, 0, 0, 0},
     };
 
-    int test_sizes1[TEST_COUNT] = {13, 15, 15, 11, 7};
+    int test_sizes1[TEST_COUNT] = {15, 15, 15, 11, 7};
 
     for (int i = 0; i < TEST_COUNT; i++)
     {
