@@ -44,10 +44,18 @@ BTNode* pop(Stack *stack);
 void printTree(BTNode *node);
 void removeAll(BTNode **node);
 
+/// test function ///
+void smokeTest(void);
+
 ///////////////////////////// main() /////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+    printf("[DEBUG MODE] Running test functions\n");
+    smokeTest();
+    return 0;
+#endif
     char e;
     int c,s;
     BTNode *root;
@@ -98,10 +106,73 @@ int main()
 
 //////////////////////////////////////////////////////////////////////////////////
 
+void smokeTest(void)
+{
+    printf("============== Smoke Test Start ==============\n\n");
+
+#define TEST_COUNT 5
+#define MAX_ELEMENTS 100
+
+    int test_cases1[TEST_COUNT][MAX_ELEMENTS] = {
+        {50, 20, 60, 10, 30, 0, 0, 55, 0, 0, 80, 0, 0, 0, 0},
+        {4, 2, 6, 1, 3, 0, 0, 0, 0, 5, 7, 0, 0, 0, 0},
+        {5, 3, 7, 1, 2, 9, 0, 0, 0, 0, 0, 4, 8, 0, 0, 0, 0},
+        {1, 2, 3, 0, 0, 4, 5, 0, 0, 0, 0},
+        {1, 2, 3, 0, 0, 0, 0},
+    };
+
+    int test_sizes1[TEST_COUNT] = {15, 15, 15, 11, 7};
+
+    for (int i = 0; i < TEST_COUNT; i++)
+    {
+        printf("**************** test case %02d ****************\n", i + 1);
+        Stack stk;
+        BTNode *root, *temp;
+
+        stk.top = NULL;
+        root = NULL;
+
+        root = createBTNode(test_cases1[i][0]);
+        push(&stk, root);
+
+        for (int j = 1; j < test_sizes1[i]; j++)
+        {
+            temp = pop(&stk);
+            if (test_cases1[i][j] != 0)
+                temp->left = createBTNode(test_cases1[i][j]);
+            if (test_cases1[i][++j] != 0)
+                temp->right = createBTNode(test_cases1[i][j]);
+
+            if (temp->right != NULL)
+                push(&stk, temp->right);
+            if (temp->left != NULL)
+                push(&stk, temp->left);
+        }
+
+        printf("bianry tree: ");
+        printTree(root);
+        putchar('\n');
+
+        printf("The number of nodes that have exactly one child node is: %d.\n", countOneChildNodes(root));
+
+        removeAll(&root);
+        putchar('\n');
+    }
+    printf("============= Smoke Test Complete =============\n");
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+
 int countOneChildNodes(BTNode *node)
 
 {
-    /* add your code here */
+    if (node == NULL)
+        return 0;
+
+    if ((node->left == NULL && node->right == NULL) || (node->left != NULL && node->right != NULL))
+        return countOneChildNodes(node->left) + countOneChildNodes(node->right);
+    
+    return countOneChildNodes(node->left) + countOneChildNodes(node->right) + 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
