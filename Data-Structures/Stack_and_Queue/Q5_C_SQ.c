@@ -46,10 +46,18 @@ ListNode * findNode(LinkedList *ll, int index);
 int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
+/// test function ///
+void smokeTest(void);
+
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
 {
+#ifdef DEBUG
+	printf("[DEBUG MODE] Running test functions\n");
+	smokeTest();
+	return 0;
+#endif
 	int c, i;
 	LinkedList ll;
 	Queue q;
@@ -105,11 +113,62 @@ int main()
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////
+
+void smokeTest(void)
+{
+	printf("============== Smoke Test Start ==============\n\n");
+
+#define TEST_COUNT 5
+#define MAX_ELEMENTS 10
+
+	int test_cases[TEST_COUNT][MAX_ELEMENTS] = {
+		{16, 15, 11, 10, 5, 4},
+		{16, 15, 11, 10, 5, 1},
+		{16, 15, 11, 10, 5},
+		{1, 2, 3, 4, 5},
+		{5, 4, 3, 2, 1},
+	};
+
+	int test_sizes[TEST_COUNT] = {6, 6, 5, 5, 5};
+
+	for (int i = 0; i < TEST_COUNT; i++)
+	{
+		printf("**************** test case %02d ****************\n", i + 1);
+		Queue q;
+
+		// Initialize the stack 1 as an empty stack
+		q.ll.head = NULL;
+		q.ll.size = 0;
+
+		for (int j = 0; j < test_sizes[i]; j++)
+			enqueue(&q, test_cases[i][j]);
+
+		printf("\nbefore reverse: ");
+		printList(&(q.ll));
+
+		recursiveReverse(&q);
+
+		printf("\nafter reverse: ");
+		printList(&(q.ll));
+
+		removeAllItems(&(q.ll));
+		putchar('\n');
+	}
+
+	printf("============= Smoke Test Complete =============\n");
+}
+
 ////////////////////////////////////////////////////////////
 
 void recursiveReverse(Queue *q)
 {
-/* add your code here */
+	if (q == NULL || isEmptyQueue(q))
+		return;
+
+	int temp = dequeue(q);
+	recursiveReverse(q);
+	enqueue(q, temp);
 }
 
 //////////////////////////////////////////////////////////////////
